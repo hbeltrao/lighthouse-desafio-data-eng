@@ -1,4 +1,5 @@
 
+
 <!-- Written with [StackEdit](https://stackedit.io/). -->
 
   
@@ -18,7 +19,6 @@ https://bitbucket.org/indiciumtech/airflow_tooltorial/src/main/desafio-airflow.m
 O projeto consiste em extrair dados das tabelas *Order* e *OrderDetail* do banco de dados SQLite3 Northwind_small para calcular a quantidade total de itens vendidos que foram enviados para a cidade do Rio de Janeiro, conforme ilustrado na Figura-1:
 
 ![Figura-1](images/Workflow.png)
-
 <div align="center">
   <i> Figura-1: Workflow proposto </i>
 </div>
@@ -53,6 +53,9 @@ FROM apache/airflow:2.4.1-python3.9
 COPY requirements.txt /
 RUN pip install --no-cache-dir -r /requirements.txt
 ```
+
+e feito um ajuste no arquivo Docker-compose.yaml conforme instruções contidas no próprio arquivo de como usar imagens estendidas.
+
 A estrutura de diretórios final após esta etapa deve ficar da seguinte forma:
 ```
 airflow-local/
@@ -81,22 +84,33 @@ O projeto possui a seguinte organização de diretórios:
 dags/
 │
 ├── Job_desafio_modulo_5/
+│
 │	├── config/
 │		└── definitions.py
+│
 │	├── data/
 │		└── Northwind_small.sqlite
+│
 │	├── images/
+│		├── Banner.png
+│		├── DAG-instructions.png
+│		├── DAGs-list.png
+│		├── docker-containers-list.png
+│		└── Workflow.png
+│
 │	├── outputs/
 │		├── count.txt
 │		├── final_output.txt
 │		├── output_order_details.csv
 │		└── output_orders.csv
+│
 │	└── scripts/
 │		├── __init__.py
 │		├── __main__.py
 │		├── fetch_order_details.py
 │		├── fetch_orders.py
 │		└── transform_data.py
+│
 │	├── pipeline_DAG.py
 │	├── .airflowignore
 │	├── .gitignore.txt
@@ -133,7 +147,41 @@ OBS: Para o correto funcionamento no Docker, os arquivos da pasta *outputs/* dev
 
 ## Instruções de uso
 
-O primeiro passo a ser feito logo após confirmar o serviço do airflow rodando e funcionando (acessar o endereço http://localhost:8080/home sem problemas já é um bom indicador) é criar a variável *my_email* que será usada para codificar os dados do resultado final.
+O primeiro passo a ser feito é subir os serviços do Airflow. Para isso basta abrir uma janela de terminal na pasta airflow-local e rodar o comando:
+```
+sudo docker-compose up
+```
 
-Para fazer isso basta acessar o menu Admin > Variables , clicar no + , inserir os dados solicitados e salvar.
+Para confirmar que os serviços foram carregados corretamente, pode-se usar o comando
+```
+sudo docker ps
+``` 
+e verificar a lista de containeres rodando, conforme a Figura-2:
 
+![Figura-2](images/docker-containers-list.png)
+<div align="center">
+  <i> Figura-2: Lista de containers rodando no docker </i>
+</div>
+
+O Airflow pode ser acessado através do endereço http://localhost:8080/home e realizando o login (o login e senha iniciais são Login=airflow, password=airflow, mas podem ser modificados no arquivo docker-compose.yaml).
+
+Se tudo tiver corrido bem, a pagina inicial do airflow deverá conter a DAG *desafio_airflow_modulo_5* conforme a Figura-3:
+
+![Figura-3](images/DAGs-list.png)
+<div align="center">
+  <i> Figura-3: Lista de DAGs disponíveis</i>
+</div> 
+
+O próximo passo é criar a variável *my_email* que será usada na codificação do arquivo final. Para fazer isso basta acessar o menu Admin > Variables , clicar no + , inserir os dados solicitados e salvar.
+
+Por fim, basta dar unpause na DAG e testá-la ativando manualmente o trigger:
+
+![Figura-4](images/DAGs-instructions.png)
+<div align="center">
+  <i> Figura-3: Visão de Graph da DAG</i>
+</div> 
+
+na visão Graph pode-se visualizar o fluxo de execução das tasks, que coincide com o workflow proposto no início deste documento.
+
+para verificar se a DAG foi executada com sucesso, pode-se visualizar a aba GRID e verificar os detalhes de execução.
+Em caso de algum erro de execução, ir na aba Graph > clicar na task que teve a falha de execução > clicar no botão Log e analisar o log de erros para verificar a causa da falha.

@@ -1,0 +1,10 @@
+./venv
+venv
+*./venv
+./venv*
+.vscode
+.git
+.gitignore
+.git*
+
+*__pycache__*
