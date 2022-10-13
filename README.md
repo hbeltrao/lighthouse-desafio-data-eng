@@ -176,9 +176,9 @@ O próximo passo é criar a variável *my_email* que será usada na codificaçã
 
 Por fim, basta dar unpause na DAG e testá-la ativando manualmente o trigger:
 
-![Figura-4](images/DAGs-instructions.png)
+![Figura-4](images/DAG-instructions.png)
 <div align="center">
-  <i> Figura-3: Visão de Graph da DAG</i>
+  <i> Figura-4: Visão de Graph da DAG</i>
 </div> 
 
 na visão Graph pode-se visualizar o fluxo de execução das tasks, que coincide com o workflow proposto no início deste documento.
