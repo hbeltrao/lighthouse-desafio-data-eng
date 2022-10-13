@@ -39,7 +39,7 @@ Os requisitos para funcionamento deste projeto são:
 
 OBS: caso não seja utilizado o docker para instanciar os serviços do Airflow, o arquivo requirements.txt pode sofrer alterações para acomodar os requisitos do Airflow.
 
-### Instanciando o Apache Airflow com o Docker
+## Instanciando o Apache Airflow com o Docker
 
 Para instanciar os serviços do Apache Airflow usando Docker containers, sugere-se seguir o passo a passo do tutorial abaixo:
 
